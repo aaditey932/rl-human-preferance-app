@@ -43,6 +43,8 @@ def init_session_state():
         st.session_state.prompt_for_round = None
     if "prompt_input" not in st.session_state:
         st.session_state.prompt_input = ""
+    if "preference_saved_to_supabase" not in st.session_state:
+        st.session_state.preference_saved_to_supabase = False
 
 
 def clear_current_round():
@@ -70,6 +72,7 @@ def record_preference(preference: str):
                 err_msg = f"{err_msg} — {detail}"
             st.error(f"Failed to save to database: {err_msg}")
             return
+        st.session_state.preference_saved_to_supabase = True
         record = create_record(prompt, response_a, response_b, preference, meta)
         st.session_state.records.append(record)
         clear_current_round()
@@ -92,6 +95,10 @@ def main():
     st.title("Human-in-the-Loop RL — Preference Collection")
     st.caption("Enter a prompt, get two model responses, then choose which you prefer (or a tie).")
     st.info(f"**Response limit:** {RESPONSE_CHAR_LIMIT} characters — model responses are instructed to stay within this length.")
+
+    if st.session_state.preference_saved_to_supabase:
+        st.success("Preference saved to Supabase.")
+        st.session_state.preference_saved_to_supabase = False
 
     # Prompt input and generate
     prompt_value = (st.session_state.prompt_for_round or "") if st.session_state.response_a is not None else st.session_state.prompt_input
