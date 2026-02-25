@@ -13,6 +13,7 @@ from llm import generate_two_responses
 MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 TEMPERATURE = float(os.environ.get("OPENAI_TEMPERATURE", "0.7"))
 MAX_TOKENS = int(os.environ.get("OPENAI_MAX_TOKENS", "1024"))
+RESPONSE_CHAR_LIMIT = int(os.environ.get("RESPONSE_CHAR_LIMIT", "500"))
 PERSIST_JSONL = Path(__file__).resolve().parent / "preferences.jsonl"
 
 
@@ -58,6 +59,7 @@ def main():
     st.set_page_config(page_title="Human-in-the-Loop RL", page_icon="🔄")
     st.title("Human-in-the-Loop RL — Preference Collection")
     st.caption("Enter a prompt, get two model responses, then choose which you prefer (or a tie).")
+    st.info(f"**Response limit:** {RESPONSE_CHAR_LIMIT} characters — model responses are instructed to stay within this length.")
 
     # Prompt input and generate
     prompt_value = (st.session_state.prompt_for_round or "") if st.session_state.response_a is not None else ""
@@ -89,6 +91,7 @@ def main():
                         model=MODEL,
                         temperature=TEMPERATURE,
                         max_tokens=MAX_TOKENS,
+                        response_char_limit=RESPONSE_CHAR_LIMIT,
                     )
                     st.session_state.response_a = a
                     st.session_state.response_b = b
@@ -101,13 +104,16 @@ def main():
     # Show responses and preference buttons (fixed once generated)
     if st.session_state.response_a is not None and st.session_state.response_b is not None:
         st.subheader("Responses (choose your preference)")
-        col_a, col_b = st.columns(2)
-        with col_a:
+
+        panel_a = st.container(border=True)
+        with panel_a:
             st.markdown("**Response A**")
-            st.text_area("", value=st.session_state.response_a, height=200, disabled=True, key="disp_a")
-        with col_b:
+            st.text_area("", value=st.session_state.response_a, height=200, disabled=True, key="disp_a", label_visibility="collapsed")
+
+        panel_b = st.container(border=True)
+        with panel_b:
             st.markdown("**Response B**")
-            st.text_area("", value=st.session_state.response_b, height=200, disabled=True, key="disp_b")
+            st.text_area("", value=st.session_state.response_b, height=200, disabled=True, key="disp_b", label_visibility="collapsed")
 
         pref_a, pref_b, pref_tie = st.columns(3)
         with pref_a:
