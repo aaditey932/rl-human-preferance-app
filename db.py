@@ -25,6 +25,17 @@ def is_configured() -> bool:
     return bool(SUPABASE_URL and (SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY))
 
 
+def _json_safe(obj: Any) -> Any:
+    """Return a JSON-serializable version for Supabase JSONB."""
+    if obj is None or isinstance(obj, (bool, int, float, str)):
+        return obj
+    if isinstance(obj, dict):
+        return {k: _json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_json_safe(v) for v in obj]
+    return str(obj)
+
+
 def insert_preference(
     prompt: str,
     response_a: str,
@@ -41,7 +52,7 @@ def insert_preference(
         "response_a": response_a,
         "response_b": response_b,
         "preference": preference,
-        "metadata": metadata,
+        "metadata": _json_safe(metadata),
     }
     client.table(TABLE_NAME).insert(row).execute()
 

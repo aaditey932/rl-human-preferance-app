@@ -64,7 +64,11 @@ def record_preference(preference: str):
         try:
             insert_preference(prompt, response_a, response_b, preference, meta)
         except Exception as e:
-            st.error(f"Failed to save to database: {e}")
+            err_msg = str(e)
+            detail = getattr(e, "message", None) or getattr(e, "details", None)
+            if detail:
+                err_msg = f"{err_msg} — {detail}"
+            st.error(f"Failed to save to database: {err_msg}")
             return
         record = create_record(prompt, response_a, response_b, preference, meta)
         st.session_state.records.append(record)

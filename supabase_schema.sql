@@ -10,5 +10,5 @@ create table if not exists preferences (
   created_at timestamptz default now()
 );
 
--- Optional: enable RLS and add policies if you use anon key and want row-level security.
--- For service-role key, RLS can be left disabled.
+-- Allow inserts/selects without RLS policies (service_role bypasses RLS; anon needs this).
+alter table preferences disable row level security;
