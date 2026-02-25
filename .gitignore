@@ -1,0 +1,23 @@
+# Environment and secrets
+.env
+.env.local
+*.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Optional: uncomment to avoid committing collected preference data
+# preferences.jsonl
