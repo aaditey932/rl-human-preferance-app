@@ -8,10 +8,12 @@ import streamlit as st
 
 from data import (
     append_record,
+    create_record,
     export_full_jsonl,
     export_training_jsonl,
     get_random_prompt_from_dataset,
 )
+from db import fetch_all_preferences, insert_preference, is_configured as db_configured
 from llm import generate_two_responses
 
 # Config (can move to env or config file)
@@ -24,7 +26,13 @@ PERSIST_JSONL = Path(__file__).resolve().parent / "preferences.jsonl"
 
 def init_session_state():
     if "records" not in st.session_state:
-        st.session_state.records = []
+        if db_configured():
+            try:
+                st.session_state.records = fetch_all_preferences()
+            except Exception:
+                st.session_state.records = []
+        else:
+            st.session_state.records = []
     if "response_a" not in st.session_state:
         st.session_state.response_a = None
     if "response_b" not in st.session_state:
@@ -49,16 +57,29 @@ def record_preference(preference: str):
         return
     meta = dict(st.session_state.generation_metadata or {})
     meta["timestamp"] = datetime.utcnow().isoformat() + "Z"
-    append_record(
-        st.session_state.records,
-        st.session_state.prompt_for_round,
-        st.session_state.response_a,
-        st.session_state.response_b,
-        preference,
-        meta,
-        jsonl_path=PERSIST_JSONL,
-    )
-    clear_current_round()
+    prompt = st.session_state.prompt_for_round
+    response_a = st.session_state.response_a
+    response_b = st.session_state.response_b
+    if db_configured():
+        try:
+            insert_preference(prompt, response_a, response_b, preference, meta)
+        except Exception as e:
+            st.error(f"Failed to save to database: {e}")
+            return
+        record = create_record(prompt, response_a, response_b, preference, meta)
+        st.session_state.records.append(record)
+        clear_current_round()
+    else:
+        append_record(
+            st.session_state.records,
+            prompt,
+            response_a,
+            response_b,
+            preference,
+            meta,
+            jsonl_path=PERSIST_JSONL,
+        )
+        clear_current_round()
 
 
 def main():

@@ -20,6 +20,20 @@ A simple Streamlit app that collects human preference data for downstream RLHF-s
 
    (Or use a `.env` file and load it before running; the OpenAI client reads `OPENAI_API_KEY` from the environment.)
 
+3. **Optional: Supabase (recommended for persistence)**
+
+   If you set Supabase credentials, preference data is stored in Supabase instead of a local file. Create a project at [supabase.com](https://supabase.com), then run the table setup:
+
+   - In the Supabase dashboard, open **SQL Editor** and run the script in `supabase_schema.sql` to create the `preferences` table.
+   - Set environment variables (or add to `.env`):
+
+   ```bash
+   export SUPABASE_URL="https://your-project.supabase.co"
+   export SUPABASE_SERVICE_ROLE_KEY="your-service-role-key"
+   ```
+
+   See `.env.example` for a template. Without Supabase, preferences are still appended to `preferences.jsonl` in the project directory.
+
 ## Run the app
 
 From the Lab 6 directory:
@@ -54,5 +68,4 @@ The repo includes a small curated dataset in `prompts_dataset.json` (**ambiguous
 - `OPENAI_MODEL` — default: `gpt-4o-mini`
 - `OPENAI_TEMPERATURE` — default: `0.7`
 - `OPENAI_MAX_TOKENS` — default: `1024`
-
-Preference records are also appended to `preferences.jsonl` in the project directory as you submit choices.
+- `SUPABASE_URL` — when set (with `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_ANON_KEY`), preference data is stored in Supabase and loaded on startup; the export buttons then provide training/full JSONL from the database. If unset, preferences are appended to `preferences.jsonl` in the project directory.
