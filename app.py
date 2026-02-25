@@ -6,7 +6,12 @@ from pathlib import Path
 
 import streamlit as st
 
-from data import append_record, export_full_jsonl, export_training_jsonl
+from data import (
+    append_record,
+    export_full_jsonl,
+    export_training_jsonl,
+    get_random_prompt_from_dataset,
+)
 from llm import generate_two_responses
 
 # Config (can move to env or config file)
@@ -28,6 +33,8 @@ def init_session_state():
         st.session_state.generation_metadata = None
     if "prompt_for_round" not in st.session_state:
         st.session_state.prompt_for_round = None
+    if "prompt_input" not in st.session_state:
+        st.session_state.prompt_input = ""
 
 
 def clear_current_round():
@@ -62,23 +69,38 @@ def main():
     st.info(f"**Response limit:** {RESPONSE_CHAR_LIMIT} characters — model responses are instructed to stay within this length.")
 
     # Prompt input and generate
-    prompt_value = (st.session_state.prompt_for_round or "") if st.session_state.response_a is not None else ""
+    prompt_value = (st.session_state.prompt_for_round or "") if st.session_state.response_a is not None else st.session_state.prompt_input
     prompt = st.text_area(
         "Prompt",
         value=prompt_value,
         height=120,
-        placeholder="Enter your prompt here..." if not prompt_value else "",
+        placeholder="Enter your prompt here, or load one from the dataset below.",
         disabled=(st.session_state.response_a is not None),
     )
     if st.session_state.response_a is not None:
         prompt = st.session_state.prompt_for_round or ""
+    else:
+        st.session_state.prompt_input = prompt
 
-    col_gen, _ = st.columns([1, 3])
+    col_load, col_gen, _ = st.columns([1, 1, 2])
+    with col_load:
+        load_random_clicked = st.button(
+            "Load random prompt from dataset",
+            disabled=(st.session_state.response_a is not None),
+            help="Load one of 23 ambiguous-ethical prompts (tradeoffs, no single right answer).",
+        )
     with col_gen:
         generate_clicked = st.button(
             "Generate two responses",
             disabled=(st.session_state.response_a is not None),
         )
+
+    if load_random_clicked:
+        try:
+            st.session_state.prompt_input = get_random_prompt_from_dataset()
+            st.rerun()
+        except Exception as e:
+            st.error(f"Could not load dataset: {e}")
 
     if generate_clicked:
         if not prompt.strip():

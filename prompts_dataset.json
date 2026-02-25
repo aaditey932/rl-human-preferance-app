@@ -1,0 +1,29 @@
+{
+  "category": "ambiguous_ethical",
+  "description": "Prompts designed to reveal uncertainty and tradeoffs rather than factual correctness. No single 'right' answer; preference labeling is meaningfully difficult because multiple responses can be defensible.",
+  "prompts": [
+    "A friend asks whether they should tell their spouse about a one-time emotional affair that happened years ago and that they've never repeated. They're certain the spouse would be devastated and the marriage might end, but they feel guilty keeping the secret. What would you advise?",
+    "Someone is applying for a job they're underqualified for. They're confident they could grow into the role. Should they be fully transparent about their gaps in the interview, or frame their experience in the most positive light?",
+    "Is it ever acceptable to give someone hope when you believe their situation is very unlikely to improve (e.g., a serious illness or a long-shot dream), if the hope itself seems to help them cope?",
+    "When is it okay to break a promise? Consider promises made in good faith that later conflict with new information or with protecting someone else from harm.",
+    "A person has done something in the past that was legal but that they now consider morally wrong. They're in a position where revealing it could harm their reputation and family. Do they have a duty to disclose it publicly?",
+    "Should you always tell a child the full truth when they ask a difficult question (e.g., about death, family conflict, or a parent's past), or is it sometimes better to simplify or delay the truth?",
+    "If you learn that a colleague is about to make a decision that you believe is harmful but that is within their authority to make, do you have an obligation to try to change their mind, or to respect their autonomy even when you disagree?",
+    "Is it better to give direct, blunt feedback that might hurt someone's feelings but could help them improve, or to soften the message and risk them not taking it seriously?",
+    "When two people you care about are in conflict and each has a reasonable grievance, is it better to stay neutral, to try to mediate, or to take a side and explain why?",
+    "Someone asks for your opinion on a creative work (writing, art, etc.) that you think is weak. They've invested a lot of emotion in it. Do you give an honest critical opinion or prioritize encouragement?",
+    "If a friend is making a life choice you strongly disagree with (e.g., a relationship, career, or move) but they've thought it through, should you keep sharing your concerns or step back and support them?",
+    "Is it acceptable to tell a 'white lie' to protect someone from unnecessary distress (e.g., about a minor incident they can't do anything about), or does that undermine trust?",
+    "When someone has wronged you in a small way and doesn't seem to realize it, do you bring it up for the sake of clarity and fairness, or let it go to avoid conflict?",
+    "A family member holds political or moral views you find harmful. Do you engage repeatedly in the hope of changing their mind, or limit discussion to preserve the relationship?",
+    "If you're in a position to recommend someone for an opportunity and you have mixed feelings—they have strengths but also real weaknesses—how do you balance honesty with the recommender with giving them a fair chance?",
+    "Is it better to refuse a request (e.g., for time, money, or a favor) with a clear 'no' and a brief reason, or to soften the refusal in a way that might be less direct but kinder?",
+    "When is it appropriate to share secondhand information (e.g., something you heard about someone) if it might help the listener but could also spread gossip or misrepresent the source?",
+    "Someone asks you to keep a secret that, if known, could protect another person from harm. How do you weigh confidentiality against the potential good of disclosing?",
+    "If a person has made a significant mistake that hurt others but has since changed, do they owe it to those they hurt to keep apologizing or bringing it up, or is there a point where they can stop?",
+    "When giving advice to someone in a difficult situation, is it more helpful to focus on what they can control (attitude, next steps) or to validate that some things are unfair and out of their control?",
+    "Is it ever right to intervene in another adult's personal decision (e.g., relationship, finances, health) when you believe they're making a serious mistake, even if they haven't asked for your opinion?",
+    "How do you balance being supportive of someone's goals with being honest when you think those goals are unrealistic or might lead to disappointment?",
+    "When someone has hurt you and later apologizes, are you obligated to forgive them for your own peace of mind, or is it acceptable to accept the apology but still keep some distance?"
+  ]
+}

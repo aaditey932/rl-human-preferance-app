@@ -1,9 +1,27 @@
 """Preference record storage and export for Human-in-the-Loop RL."""
 
 import json
+import random
 from datetime import datetime
 from pathlib import Path
 from typing import Any
+
+PROMPTS_DATASET_PATH = Path(__file__).resolve().parent / "prompts_dataset.json"
+
+
+def load_prompts_dataset() -> dict[str, Any]:
+    """Load the prompt dataset JSON. Returns dict with 'category', 'description', 'prompts'."""
+    with open(PROMPTS_DATASET_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def get_random_prompt_from_dataset() -> str:
+    """Return a random prompt from the curated dataset (ambiguous ethical / tradeoffs)."""
+    data = load_prompts_dataset()
+    prompts = data.get("prompts", [])
+    if not prompts:
+        return ""
+    return random.choice(prompts).strip()
 
 
 def create_record(

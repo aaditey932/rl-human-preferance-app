@@ -1,5 +1,7 @@
 # Human-in-the-Loop RL — Preference Collection App
 
+**Live app:** [https://rl-human-preferance-app.streamlit.app](https://rl-human-preferance-app.streamlit.app)
+
 A simple Streamlit app that collects human preference data for downstream RLHF-style training: you enter a prompt, the app generates two responses from the same OpenAI model, and you choose which you prefer (or mark a tie). All data can be exported as `{prompt, chosen, rejected}` pairs.
 
 ## Setup
@@ -26,9 +28,16 @@ From the Lab 6 directory:
 streamlit run app.py
 ```
 
+## Prompt dataset
+
+The repo includes a small curated dataset in `prompts_dataset.json` (**ambiguous ethical questions**, 23 prompts). These are designed to make preference labeling meaningfully difficult: they emphasize uncertainty and tradeoffs (e.g., honesty vs. kindness, autonomy vs. harm) rather than factual correctness, so reasonable labelers may disagree and “A vs B” choices are non-trivial.
+
+- In the app, click **Load random prompt from dataset** to insert a random prompt from this set, then generate and label as usual.
+- You can edit the prompt after loading or add your own prompts in the text area.
+
 ## How to use
 
-1. Enter a **prompt** in the text area and click **Generate two responses**.
+1. Enter a **prompt** in the text area (or use **Load random prompt from dataset**) and click **Generate two responses**.
 2. Once generated, **Response A** and **Response B** are fixed. Choose **Prefer A**, **Prefer B**, or **Tie**.
 3. Your choice is recorded; you can then enter a new prompt and repeat.
 4. Use **Export** to download:
