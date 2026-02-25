@@ -155,12 +155,12 @@ def main():
         panel_a = st.container(border=True)
         with panel_a:
             st.markdown("**Response A**")
-            st.text_area("", value=st.session_state.response_a, height=200, disabled=True, key="disp_a", label_visibility="collapsed")
+            st.text_area("Response A", value=st.session_state.response_a, height=200, disabled=True, key="disp_a", label_visibility="collapsed")
 
         panel_b = st.container(border=True)
         with panel_b:
             st.markdown("**Response B**")
-            st.text_area("", value=st.session_state.response_b, height=200, disabled=True, key="disp_b", label_visibility="collapsed")
+            st.text_area("Response B", value=st.session_state.response_b, height=200, disabled=True, key="disp_b", label_visibility="collapsed")
 
         pref_a, pref_b, pref_tie = st.columns(3)
         with pref_a:
